@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - FurEver Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        .cart-wrapper { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 400px; gap: 3rem; align-items: start; }
+        .cart-items-section { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .checkout-section { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: sticky; top: 2rem; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #eee; }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-info { display: flex; align-items: center; gap: 1.5rem; }
+        .cart-item-info img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .cart-item-text h4 { margin: 0; color: var(--primary-dark); font-size: 1.4rem; font-weight: bold; }
+        .cart-item-text span { color: #666; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;}
+        .btn-remove { background: #ff4d4d; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; }
+        .btn-remove:hover { background: #e00000; transform: scale(1.05); }
+        .empty-cart { text-align: center; color: #777; padding: 3rem 0; font-size: 1.2rem; }
+        
+        @media (max-width: 900px) {
+            .cart-wrapper { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body style="background: var(--primary-light);">
+    <nav>
+        <a href="index.html" class="logo-link">
+            <img src="images/logo.png" alt="FurEver Home Logo" class="logo-img">
+            <div class="logo">FurEver<span>Home</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li id="myAdoptionsLink"><a href="dashboard.html">My Adoptions</a></li>
+        </ul>
+        <button id="cartBtn" class="login-btn" style="background:#4CAF50;" onclick="window.location.href='cart.html'">Cart</button>
+        <button class="login-btn" id="logoutBtn" style="cursor: pointer;" onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="cart-wrapper">
+        <div class="cart-items-section">
+            <h2 style="color: var(--primary-dark); margin-bottom: 1.5rem; border-bottom: 2px solid var(--primary-light); padding-bottom: 0.5rem;" id="cartTitle">Your Adoption Cart</h2>
+            <div id="dedicatedCartList">
+                <p>Loading items...</p>
+            </div>
+        </div>
+
+        <div class="checkout-section">
+            <h3 style="color: var(--primary-dark); margin-bottom: 1.5rem;">Adoption Application</h3>
+            <form id="dedicatedCheckoutForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Why do you want to adopt?</label>
+                    <textarea id="reason" placeholder="Please tell us a bit about your home and why you'd like to adopt these animals." required style="height: 100px; resize: vertical;"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitCheckoutBtn" style="width: 100%; font-size: 1.1rem; padding: 1rem;">Submit Secure Application</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FurEver Home Adoption Center.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

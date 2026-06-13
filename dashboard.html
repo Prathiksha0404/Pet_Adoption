@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Adoptions - FurEver Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-container { max-width: 1000px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .order-card { border: 1px solid #ddd; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem; }
+        .status-badge { padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+        .pet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+        .dash-pet-card { background: #f9f9f9; padding: 1rem; border-radius: 8px; text-align: center; }
+        .dash-pet-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body style="background: var(--primary-light);">
+    <nav>
+        <a href="index.html" class="logo-link">
+            <img src="images/logo.png" alt="FurEver Home Logo" class="logo-img">
+            <div class="logo">FurEver<span>Home</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li id="myAdoptionsLink"><a href="dashboard.html" style="color:var(--primary); font-weight:bold;">My Adoptions</a></li>
+        </ul>
+        <button id="cartBtn" class="login-btn" style="background:#4CAF50; display:none;" onclick="openCart()">Cart (0)</button>
+        <button class="login-btn" id="logoutBtn" style="cursor: pointer;" onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="dashboard-container">
+        <h2 style="color: var(--primary-dark); margin-bottom: 2rem;">My Adoption Applications</h2>
+        <div id="ordersContainer">
+            <p>Loading your adoptions...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FurEver Home Adoption Center.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const username = localStorage.getItem('username');
+            if(!username || localStorage.getItem('role') === 'admin') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const container = document.getElementById('ordersContainer');
+            try {
+                const res = await fetch(`http://localhost:5000/api/orders/${username}`);
+                const orders = await res.json();
+
+                if(orders.length === 0) {
+                    container.innerHTML = '<p>You have no adoption applications yet. Head over to our <a href="services.html">Services</a> page to browse pets!</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                orders.forEach((order, index) => {
+                    const statusClass = `status-${order.status}`;
+                    const date = new Date(order.created_at).toLocaleDateString();
+                    
+                    let petsHtml = order.pets.map(pet => `
+                        <div class="dash-pet-card">
+                            <img src="${pet.image_url}" alt="${pet.name}">
+                            <p style="font-weight:bold; margin-top:5px; color:#333;">${pet.name}</p>
+                            <span style="font-size:0.8rem; color:#666;">${pet.type}</span>
+                        </div>
+                    `).join('');
+
+                    container.innerHTML += `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <h3 style="margin:0; color:var(--primary-dark);">Application #${orders.length - index}</h3>
+                                    <span style="color:#666; font-size:0.9rem;">Submitted on: ${date}</span>
+                                </div>
+                                <div class="status-badge ${statusClass}">${order.status}</div>
+                            </div>
+                            <div class="pet-grid">
+                                ${petsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = '<p>Error loading your adoptions.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

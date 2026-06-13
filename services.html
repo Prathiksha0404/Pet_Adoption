@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - FurEver Home Available Pets</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo-link">
+            <img src="images/logo.png" alt="FurEver Home Logo" class="logo-img">
+            <div class="logo">FurEver<span>Home</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li id="myAdoptionsLink" style="display:none;"><a href="dashboard.html">My Adoptions</a></li>
+        </ul>
+        <button id="cartBtn" class="login-btn" style="background:#4CAF50; display:none;" onclick="openCart()">Cart (0)</button>
+        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+        <button class="login-btn" id="logoutBtn" style="display: none; cursor: pointer;" onclick="logout()">Logout</button>
+    </nav>
+
+    <section id="adopt">
+        <h2 style="color: var(--primary-dark); margin-bottom: 2rem;">Browse Our Pets</h2>
+        <div class="services-layout">
+            <aside class="sidebar">
+                <h3>Filter by Animal</h3>
+                <div class="filter-group">
+                    <button class="filter-btn" onclick="fetchPets('')">All Animals</button>
+                    <button class="filter-btn" onclick="fetchPets('Dog')">Dogs</button>
+                    <button class="filter-btn" onclick="fetchPets('Cat')">Cats</button>
+                    <button class="filter-btn" onclick="fetchPets('Rabbit')">Rabbits</button>
+                </div>
+            </aside>
+            <main class="pet-list" id="petList">
+                <!-- Pets will be loaded here via JS -->
+                <p>Loading pets...</p>
+            </main>
+        </div>
+    </section>
+
+
+
+
+
+    <footer>
+        <p>&copy; 2026 FurEver Home Adoption Center. Built with Love and Lavender.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
